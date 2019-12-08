@@ -4,7 +4,14 @@
 			<h3>Youtube Video Viewer</h3>
 			<SearchBar @searchInput="onSearchInput" />
 		</div>
-		<VideoList :videos="videos" />
+		<div class="video-section">
+			<VideoDetails :video="selectedVideo" />
+			<VideoList
+				:videos="videos"
+				@videoSelect="onVideoSelect"
+				class="video-list"
+			/>
+		</div>
 	</div>
 </template>
 
@@ -13,16 +20,19 @@ import axios from 'axios';
 
 import SearchBar from './components/SearchBar';
 import VideoList from './components/VideoList';
+import VideoDetails from './components/VideoDetails';
 
 export default {
 	name: 'app',
 	components: {
 		SearchBar,
-		VideoList
+		VideoList,
+		VideoDetails
 	},
 	data() {
 		return {
-			videos: []
+			videos: [],
+			selectedVideo: null
 		};
 	},
 	methods: {
@@ -40,6 +50,10 @@ export default {
 			);
 			console.log(res.data);
 			this.videos = res.data.items;
+		},
+
+		onVideoSelect(video) {
+			this.selectedVideo = video;
 		}
 	}
 };
@@ -83,5 +97,15 @@ body {
 h3 {
 	font-family: 'Lobster', cursive;
 	font-size: 2rem;
+}
+
+.video-section {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 3rem;
+}
+
+.video-list {
+	padding: 0 1rem;
 }
 </style>

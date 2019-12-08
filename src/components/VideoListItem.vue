@@ -1,5 +1,5 @@
 <template>
-	<div class="video-list">
+	<div class="video-list" @click="onVideoSelect">
 		<img :src="thumbnailUrl" :alt="video.snippet.title" />
 		<div class="video-details">
 			<h4>{{ video.snippet.title }}</h4>
@@ -19,6 +19,11 @@ export default {
 		thumbnailUrl() {
 			return this.video.snippet.thumbnails.default.url;
 		}
+	},
+	methods: {
+		onVideoSelect() {
+			this.$emit('videoSelect', this.video);
+		}
 	}
 };
 </script>
@@ -29,6 +34,7 @@ export default {
 	align-items: flex-start;
 	margin-bottom: 2rem;
 	padding: 1.5rem 1.2rem;
+	transition: all 0.4s;
 }
 
 .video-list:hover {
